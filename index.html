@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>BeepSync</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="shortcut icon" href="img/beepicon.ico">
+</head>
+
+<body>
+<div class="bgImage">
+	<div class="wrapper">
+<div class="bgShadow"><br/>
+	<a href="http://beepsync.tk/"><h1 class="marginauto shadow htitle">BeepSync</h1></a>
+<br/>
+<div>
+		<div class="box"">
+				<button onclick="playSound(this)" class="">play</button>
+				<button onclick="stopSound(this)" class="space2 ">stop</button><br/>
+				<form><input autocomplete="off" spellcheck="false" type="text" name="beepbox link" placeholder="BeepBox link 1" id="userInput" oninput="beepSend()" class="space2"><br></form>
+				<form><input autocomplete="off" spellcheck="false" type="text" name="beepbox link" placeholder="BeepBox link 2" id="userInput2" oninput="beepSend2()"><br></form>
+				<form><input autocomplete="off" spellcheck="false" type="text" name="beepbox link" placeholder="BeepBox link 3" id="userInput3" oninput="beepSend3()"><br></form>
+				<form><input autocomplete="off" spellcheck="false" type="text" name="beepbox link" placeholder="BeepBox link 4" id="userInput4" oninput="beepSend4()"class="space"><br></form>
+			
+				<button onclick="rewindSound(this)">rewind</button>
+				<button onclick="forwardSound(this)">forward</button><br/>
+				<button onclick="pauseSound(this)">pause</button>
+				<button onclick="restartSound(this)">resync</button><br/>
+			</div>
+			
+			<div style="float:left;">
+				<div class="box" id=hai>
+					<p style="margin-top:10px;">Volume: <span id="volumeOut">g</span></p>
+					<input class="slider" type="range" min="0" max="1" step="0.01" value="1" id="volume">
+					<p>Tempo: <span id="tempoOut"></span></p>
+					<input class="slider" type="range" min="30" max="300" value="7" id="tempo">
+					<p>Reverb: <span id="reverbOut"></span></p>
+					<input class="slider" type="range" min="0" max="3" value="0" id="reverb">
+					<p>Key: <span id="keyOut"></span></p>
+					<input class="slider" type="range" min="0" max="11" value="0" id="key"><br /><br />
+				</div>
+				<div style=" margin:0;text-align:right;bottom:0"><span id="info">The first link</span> <br/><span id="info">syncs the sliders!</span></div>
+			</div>
+</div>
+
+<!--not used-->
+<br/><br/>
+<div class= "marginauto">
+</br>
+<img class="downArrow"
+src="img/dropdown.svg" width="40" />
+<!-- <h3 class="header">Shared on Twitter:</h3> -->
+<br />
+<div class="twitterContainer content">
+<a class="twitter-timeline" data-theme="dark" data-chrome="nofooter noheader transparent noborders noscrollbar" hide_media=true data-aria-polite="assertive" data-cards="hidden" data-src-2x="false" href="https://twitter.com/BeepBoxCo?ref_src=twsrc%5Etfw"></a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+<a href="https://twitter.com/hashtag/beepsync" style="margin:0 auto;"></a>
+</div>
+</div>
+  <script src='https://www.beepbox.co/beepbox_synth.js'></script>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+
+
+
+    <script  src="js/index.js"></script>
+
+</div>
+</div>
+</div>
+</body>
+
+</html>
