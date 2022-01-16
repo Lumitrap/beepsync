@@ -1,47 +1,40 @@
 var keyName = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-var v = $("#key").val();
 
-var synth1 = new beepbox.Synth("");
-var synth2 = new beepbox.Synth("");
-var synth3 = new beepbox.Synth("");
-var synth4 = new beepbox.Synth("");
+synth1 = new beepbox.Synth("9n10s0k0l00e00t0ua2g00j00r0i0o1T6v0u06f0qg04d04W7E0bwp110");
+synth2 = new beepbox.Synth("9n10s0k0l00e00t0ua2g00j00r0i0o1T6v0u06f0qg04d04W7E0bwp110");
+synth3 = new beepbox.Synth("9n10s0k0l00e00t0ua2g00j00r0i0o1T6v0u06f0qg04d04W7E0bwp110");
+synth4 = new beepbox.Synth("9n10s0k0l00e00t0ua2g00j00r0i0o1T6v0u06f0qg04d04W7E0bwp110");
 
+$("#userInput, #userInput2, #userInput3, #userInput4").bind('focus',function () {
+    $(this).select();
+});
 //------------SLIDERS-------------
 var volumeVar = document.getElementById("volume");
 var output1 = document.getElementById("volumeOut");
+var tempoVar = document.getElementById("tempo");
+var output2 = document.getElementById("tempoOut");
+var keyVar = document.getElementById("key");
+var output4 = document.getElementById("keyOut");
 output1.innerHTML = volumeVar.value;
+output2.innerHTML = tempoVar.value;
+output4.innerHTML = keyVar.value;
+
 volumeVar.oninput = function() {
 	output1.innerHTML = this.value;
 	synth1.volume = volumeVar.value;
 	synth2.volume = volumeVar.value;
 	synth3.volume = volumeVar.value;
 	synth4.volume = volumeVar.value;
-
+	
 };
-
-var tempoVar = document.getElementById("tempo");
-var output2 = document.getElementById("tempoOut");
-output2.innerHTML = tempoVar.value;
 tempoVar.oninput = function() {
 	output2.innerHTML = this.value;
 	synth1.song.tempo = parseInt(tempoVar.value);
 	synth2.song.tempo = parseInt(tempoVar.value);
 	synth3.song.tempo = parseInt(tempoVar.value);
 	synth4.song.tempo = parseInt(tempoVar.value);
+	
 };
-var reverbVar = document.getElementById("reverb");
-var output3 = document.getElementById("reverbOut");
-output3.innerHTML = reverbVar.value;
-reverbVar.oninput = function() {
-	output3.innerHTML = this.value;
-	synth1.song.reverb = parseInt(reverbVar.value);
-	synth2.song.reverb = parseInt(reverbVar.value);
-	synth3.song.reverb = parseInt(reverbVar.value);
-	synth4.song.reverb = parseInt(reverbVar.value);
-};
-var keyVar = document.getElementById("key");
-var output4 = document.getElementById("keyOut");
-output4.innerHTML = keyVar.value;
 keyVar.oninput = function() {
 	output4.innerHTML = this.value;
 	synth1.song.key = parseInt(keyVar.value);
@@ -49,178 +42,136 @@ keyVar.oninput = function() {
 	synth3.song.key = parseInt(keyVar.value);
 	synth4.song.key = parseInt(keyVar.value);
 };
-//-------------------------------------------
-$(document).ready(function () {
-	synth1.setSong();
-	synth2.setSong();
-	synth3.setSong();
-	synth4.setSong();
+$(document).on('input change', '#key', function () {
+	$('#keyOut').html(keyName[ $("#key").val() ])
 });
+//-------------------------------------------
 function updateSliders() {
 	output1.innerHTML = synth1.volume;
 	document.getElementById("volume").value = synth1.volume;
 	output2.innerHTML = synth1.song.tempo;
 	document.getElementById("tempo").value = synth1.song.tempo;
-	output3.innerHTML = synth1.song.reverb;
-	document.getElementById("reverb").value = synth1.song.reverb;
 	output4.innerHTML = synth1.song.key;
 	document.getElementById("key").value = synth1.song.key;
 	$('#keyOut').html(keyName[$("#key").val()]);
 }
-//-----------LEFT BUTTONS----------
-function playSound(button, name) {
+//-----------Playback Functions----------
+function playSound() {
+	fixPlayhead();
 	synth1.play();
 	synth2.play();
 	synth3.play();
 	synth4.play();
+	playBtnSet(true)
 }
-function pauseSound(button, name) {
+function fixPlayhead() {
+	synth2.playhead = synth1.playhead;
+	synth3.playhead = synth1.playhead;
+	synth4.playhead = synth1.playhead;
+}
+function pauseSound() {
 	synth1.pause();
 	synth2.pause();
 	synth3.pause();
 	synth4.pause();
+	playBtnSet(false)
 }
-function restartSound(button, name) {
-	synth1.play();
-	synth2.play();
-	synth3.play();
-	synth4.play();
+function restartSound() {
+	AllSnapToStart();
+}
+function stopSound() {
+	pauseSound();
+	playBtnSet(false)
+	AllSnapToStart();
+}
+function AllSnapToStart(){
 	synth1.snapToStart();
 	synth2.snapToStart();
 	synth3.snapToStart();
 	synth4.snapToStart();
+} 
+function AllResetEffects(){
+	synth1.resetEffects();
+	synth2.resetEffects();
+	synth3.resetEffects();
+	synth4.resetEffects();
 }
-function stopSound(button, name) {
-	synth1.pause();
-	synth2.pause();
-	synth3.pause();
-	synth4.pause();
-	synth1.snapToStart();
-	synth2.snapToStart();
-	synth3.snapToStart();
-	synth4.snapToStart();
-	// updateSliders();
-}
-function forwardSound(button, name) {
+function snapToBarAll(){
 	synth1.snapToBar();
-  synth2.snapToBar();
-  synth3.snapToBar();
-  synth4.snapToBar();
-  synth1.nextBar();
-  synth2.nextBar();
-  synth3.nextBar();
-  synth4.nextBar();
+  	synth2.snapToBar();
+  	synth3.snapToBar();
+  	synth4.snapToBar();
 }
-function rewindSound(button, name) {
-	synth1.snapToBar();
-  synth2.snapToBar();
-  synth3.snapToBar();
-  synth4.snapToBar();
-	synth1.prevBar();
-  synth2.prevBar();
-  synth3.prevBar();
-  synth4.prevBar();
+function forwardSound() {
+	snapToBarAll();
+  	synth1.goToNextBar();
+  	synth2.goToNextBar();
+  	synth3.goToNextBar();
+  	synth4.goToNextBar();
+}
+function rewindSound() {
+	snapToBarAll();
+	synth1.goToPrevBar();
+  	synth2.goToPrevBar();
+  	synth3.goToPrevBar();
+  	synth4.goToPrevBar();
 }
 //----------BeepBox Link------------
-function beepSend() {
-	var input = document.getElementById("userInput").value;
-	var newstring = input.substring(input.indexOf("#") + 1).replace('song=','');
-	synth1.snapToStart();
-	synth2.snapToStart();
-	synth3.snapToStart();
-	synth4.snapToStart();
-	synth1.setSong(newstring);
-	synth1.play();
-	synth2.play();
-	synth3.play();
-	synth4.play();
-	updateSliders();
+var input, input2, input3, input4, newstring, newstring2, newstring3, newstring4;
+function beepSend(pass) {
+	pauseSound();
+	AllResetEffects();
+	AllSnapToStart();
+	switch (pass) {
+		case 1:
+			input = document.getElementById("userInput").value;
+			newstring = input.substring(input.indexOf("#") + 1).replace('song=','');
+			synth1.setSong(newstring);
+
+		case 2:
+			input2 = document.getElementById("userInput2").value;
+			newstring2 = input2.substring(input2.indexOf("#") + 1).replace('song=','');
+			synth2.setSong(newstring2);
+			break;
+		case 3:
+			input3 = document.getElementById("userInput3").value;
+			newstring3 = input3.substring(input3.indexOf("#") + 1).replace('song=','');
+			synth3.setSong(newstring3);
+			break;
+		case 4:
+			input4 = document.getElementById("userInput4").value;
+			newstring4 = input4.substring(input4.indexOf("#") + 1).replace('song=','');
+			synth4.setSong(newstring4);
+			break;
+		default:
+	}
+
+	synth1.song.tempo = synth2.song.tempo = synth3.song.tempo = synth4.song.tempo = parseInt(synth1.song.tempo);
+	synth1.song.key = synth2.song.key = synth3.song.key = synth4.song.key = parseInt(synth1.song.key);
 	if ($('#userInput').val() != '') {
-		$('#userInput').css("background", "black");
-		// $('#userInput').css("color", "#25f3ff");
+		playSound();
+		updateSliders();
 	}
-	else{
-		// $('#userInput').css("color", "#98f");
-	}
-}
-function beepSend2() {
-	var input2 = document.getElementById("userInput2").value;
-	var newstring2 = input2.substring(input2.indexOf("#") + 1).replace('song=','');
-	synth1.snapToStart();
-	synth2.snapToStart();
-	synth3.snapToStart();
-	synth4.snapToStart();
-	synth2.setSong(newstring2);
-	synth1.play();
-	synth2.play();
-	synth3.play();
-	synth4.play();
-	updateSliders();
-	synth2.volume = parseInt(synth1.volume);
-	synth2.song.tempo = parseInt(synth1.song.tempo);
-	synth2.song.reverb = parseInt(synth1.song.reverb);
-	synth2.song.key = parseInt(synth1.song.key);
-	if ($('#userInput2').val() != '') {
-		$('#userInput2').css("background", "black");
-	}
-	else{
-	}
-}
-function beepSend3() {
-	var input3 = document.getElementById("userInput3").value;
-	var newstring3 = input3.substring(input3.indexOf("#") + 1).replace('song=','');
-	synth1.snapToStart();
-	synth2.snapToStart();
-	synth3.snapToStart();
-	synth4.snapToStart();
-	synth3.setSong(newstring3);
-	synth1.play();
-	synth2.play();
-	synth3.play();
-	synth4.play();
-	updateSliders();
-	synth3.volume = parseInt(synth1.volume);
-	synth3.song.tempo = parseInt(synth1.song.tempo);
-	synth3.song.reverb = parseInt(synth1.song.reverb);
-	synth3.song.key = parseInt(synth1.song.key);
-	if ($('#userInput3').val() != '') {
-		$('#userInput3').css("background", "black");
-	}
-	else{
-	}
-}
-function beepSend4() {
-	var input4 = document.getElementById("userInput4").value;
-	var newstring4 = input4.substring(input4.indexOf("#") + 1).replace('song=','');
-	synth1.snapToStart();
-	synth2.snapToStart();
-	synth3.snapToStart();
-	synth4.snapToStart();
-	synth4.setSong(newstring4);
-	synth1.play();
-	synth2.play();
-	synth3.play();
-	synth4.play();
-	updateSliders();
-	synth4.volume = parseInt(synth1.volume);
-	synth4.song.tempo = parseInt(synth1.song.tempo);
-	synth4.song.reverb = parseInt(synth1.song.reverb);
-	synth4.song.key = parseInt(synth1.song.key);
-	if ($('#userInput4').val() != '') {
-		$('#userInput4').css("background", "black");
-	}
-	if (jQuery('#userInput, #userInput2, #userInput3, #userInput4').val() != '') {
+	if ($('#userInput').val() != '' && $('#userInput2').val() != '' && $('#userInput3').val() != '' && $('#userInput4').val() != '') {
 		$('#userInput').css("color", "#98f");
 		$('#userInput2').css("color", "#25f3ff");
 		$('#userInput3').css("color", "#ffff25");
 		$('#userInput4').css("color", "#ff9752");
+		$('#userInput, #userInput2, #userInput3, #userInput4').addClass("flash");
 	}
-	else{
-		
+	else if($('#userInput').val() == ''){
+		$('#userInput').removeClass("flash");
+		$('#userInput').addClass("flash");
+	}
+	else {
+		$('#userInput, #userInput2, #userInput3, #userInput4').css("color", "#9988ff");
+		$('#userInput, #userInput2, #userInput3, #userInput4').removeClass("flash");
+	}
+	if ($('#userInput').val() == '' && $('#userInput2').val() == '' && $('#userInput3').val() == '' && $('#userInput4').val() == '') {
+		pauseSound();
 	}
 }
 $(".downArrow").click(function () {
-	// $(".downArrow").remove();
 	$(".downArrow").toggleClass("downArrowRotate");
     $downArrow = $(this);
     $content = $(".content");
@@ -230,22 +181,40 @@ $(".downArrow").click(function () {
     });
 });
 
-$(document).on('input change', '#key', function () {
-	var v = $("#key").val();
-	$('#keyOut').html(keyName[v])
-});
-
-$('#keyOut').html(keyName[v]);
-
 $('#userInput').focus(function () {
-	$(this).attr('placeholder', 'Beepbox.co/#8n31s0k0...')}).blur(function(){$(this).attr('placeholder', 'BeepBox link 1')
+	$(this).attr('placeholder', 'Beepbox.co/#9n31s0k0...')}).blur(function(){$(this).attr('placeholder', 'BeepBox link 1')
 })
 $('#userInput2').focus(function () {
-	$(this).attr('placeholder', 'Beepbox.co/#8n31s0k0...')}).blur(function(){$(this).attr('placeholder', 'BeepBox link 2')
+	$(this).attr('placeholder', 'Beepbox.co/#9n31s0k0...')}).blur(function(){$(this).attr('placeholder', 'BeepBox link 2')
 })
 $('#userInput3').focus(function () {
-	$(this).attr('placeholder', 'Beepbox.co/#8n31s0k0...')}).blur(function(){$(this).attr('placeholder', 'BeepBox link 3')
+	$(this).attr('placeholder', 'Beepbox.co/#9n31s0k0...')}).blur(function(){$(this).attr('placeholder', 'BeepBox link 3')
 })
 $('#userInput4').focus(function () {
-	$(this).attr('placeholder', 'Beepbox.co/#8n31s0k0...')}).blur(function(){$(this).attr('placeholder', 'BeepBox link 4')
+	$(this).attr('placeholder', 'Beepbox.co/#9n31s0k0...')}).blur(function(){$(this).attr('placeholder', 'BeepBox link 4')
 })
+
+function playBtnSet(bool) {
+	if (bool) {
+		console.log("set isPlaying to true.")
+		$(".playBtn").text("Pause").addClass('btnPlaying');
+		isPlaying = true;
+		
+	}
+	else {
+		console.log("set isPlaying to false.")
+		$(".playBtn").text("Play").removeClass('btnPlaying');
+		isPlaying = false;
+		
+	}
+}
+function playBtn() {
+	console.log("clicked it");
+	if (isPlaying) {
+		pauseSound();
+	}
+	else {
+		playSound();
+	}
+}
+
