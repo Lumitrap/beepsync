@@ -78,6 +78,7 @@ function pauseSound() {
 }
 function restartSound() {
 	AllSnapToStart();
+	playSound();
 }
 function stopSound() {
 	pauseSound();
